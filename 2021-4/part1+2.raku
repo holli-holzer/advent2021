@@ -1,6 +1,6 @@
-my @lines = 'input.txt'.IO.lines;
+my @lines = 'sample.txt'.IO.lines;
 my @drawn = @lines.first.comb( /\d+/ );
-my @board = @lines.skip.map( *.comb( /\d+/ ).Slip ).batch( 25 )>>.Array;
+my @board = @lines.skip.comb(/\d+/).batch( 25 )>>.Array;
 my @rows  = map { .item * 5 ..^ .item * 5 + 5 }, ^5;
 my @cols  = [Z,] @rows;
 
