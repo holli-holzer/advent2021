@@ -21,7 +21,7 @@ for @drawn -> $drawn
 {
     given @board.classify( *.&draw: $drawn )
     {
-        say .<complete>.map({ [*] $drawn, [+] .grep: * > 0 })
+        say .<complete>.map({ $drawn * [+] .grep: * > 0 })
             if .<complete>:exists;
 
         @board = .<incomplete>:exists
