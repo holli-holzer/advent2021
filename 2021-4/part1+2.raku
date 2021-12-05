@@ -1,9 +1,25 @@
-my @lines = 'input.txt'.IO.lines;
-my @drawn = @lines.first.comb: /\d+/;
-my @board = .batch( 25 )>>.Array with @lines.skip.comb: /\d+/;
+unit sub MAIN( Bool :$test );
 
-enum State(:!incomplete, :complete);
+my $file = $test ?? 'sample.txt' !! 'input.txt';
+
+enum State( :!incomplete, :complete );
 constant drawn = -1;
+
+my ( $numbers, $boards ) =
+    .first.comb( /\d+/ ),
+    .skip.comb( /\d+/ ).batch( 25 )>>.Array
+        with $file.IO.lines.cache;
+
+for @$numbers -> $number
+{
+    given @$boards.classify( *.&draw: $number )
+    {
+        say .{ State::complete }.map({ $number * [+] .grep: * != drawn })
+            if .{ State::complete }:exists;
+
+        $boards = .{ State::incomplete } || exit;
+    }
+}
 
 sub draw( $board, $drawn )
 {
@@ -16,17 +32,4 @@ sub draw( $board, $drawn )
     }
 
     State( so ( @cols | @rows ).first: { $board[ .Array ].all == drawn } );
-}
-
-for @drawn -> $drawn
-{
-    given @board.classify( *.&draw: $drawn )
-    {
-        say .{complete}.map({ $drawn * [+] .grep: * > 0 })
-            if .{complete}:exists;
-
-        @board = .{incomplete}:exists
-            ?? .{incomplete}.Array
-            !! last;
-    }
 }
