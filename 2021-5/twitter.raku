@@ -1,8 +1,8 @@
-unit sub MAIN(Bool $diagonals=False);
+unit sub MAIN($diagonals);
 say +("input.txt".IO.lines
-.map({.comb(/\d+/).batch(2).Array>>.Int})
-.map({cache [Z,] $_})
-.grep($diagonals|*.first: { [==] $_ })
+.map({.comb(/\d+/).batch(2)>>.Int})
+.map({[Z,] $_})
+.grep($diagonals|*.cache.first: { [==] $_ })
 .map({|[<<,>>] ([...] .head),[...] .tail})
 .map(*.gist)
 .Bag

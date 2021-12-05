@@ -3,11 +3,17 @@ unit sub MAIN( Bool :$test, Bool :$with-diagonals = False );
 my $file = $test ?? "sample.txt" !! "input.txt";
 
 say $file.IO.lines
-    .map({ .comb( /\d+/ ).batch( 2 ).Array>>.Int })
-    .map({ cache [Z,] $_ })
-    .grep( $with-diagonals | *.first: { [==] $_ } )
+    # parse the line endpoints
+    .map({ .comb( /\d+/ ).batch( 2 )>>.Int })
+    # convert to range endpoints
+    .map({ [Z,] $_ })
+    # filter diagonals if requested
+    .grep( $with-diagonals | *.cache.first: { [==] $_ } )
+    # create the points
     .map({ | ( [...] .head ) <<,>> [...] .tail })
-    .map( *.gist )
-    .Bag
+    # stringify, so we can bag them
+    .map( *.gist ).Bag
+    # filter the dangerous points
     .grep( *.value > 1 )
+    # and count them
     .elems
