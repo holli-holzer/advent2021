@@ -14,7 +14,7 @@ sub draw( $board, $drawn )
         $number = -1 if $number eq $drawn;
     }
 
-    State( so ( @cols | @rows ).first: { $board[ .Array ].all < 0 } );
+    State( so ( @cols | @rows ).first: { !$board[ .Array ].first: * != -1 } );
 }
 
 for @drawn -> $drawn
