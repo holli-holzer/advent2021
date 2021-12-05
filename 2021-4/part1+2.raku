@@ -4,10 +4,11 @@ my $file = $test ?? 'sample.txt' !! 'input.txt';
 
 enum State( :!incomplete, :complete );
 constant drawn = -1;
+constant width = 5;
 
 my ( $numbers, $boards ) =
     .first.comb( /\d+/ ),
-    .skip.comb( /\d+/ ).batch( 25 )>>.Array
+    .skip.comb( /\d+/ ).batch( width² )>>.Array
         with $file.IO.lines.cache;
 
 for @$numbers -> $number
@@ -23,7 +24,7 @@ for @$numbers -> $number
 
 sub draw( $board, $drawn )
 {
-    state @rows  = map { .item * 5 ..^ .item * 5 + 5 }, ^5;
+    state @rows  = map { .item * width ..^ .item * width + width }, ^width;
     state @cols  = [Z,] @rows;
 
     for @$board -> $number is rw
