@@ -7,7 +7,7 @@ constant drawn = -1;
 constant width = 5;
 
 my ( $numbers, $boards ) =
-    .first.comb( /\d+/ ),
+    .first.comb( /\d+/ ) ,
     .skip.comb( /\d+/ ).batch( width² )>>.Array
         with $file.IO.lines.cache;
 
@@ -15,7 +15,7 @@ for @$numbers -> $number
 {
     given @$boards.classify( *.&draw: $number )
     {
-        say .{ State::complete }.map({ $number * [+] .grep: * != drawn })
+        say .{ State::complete }.map( *.grep( * != drawn ).sum * $number )
             if .{ State::complete }:exists;
 
         $boards = .{ State::incomplete } || exit;
@@ -24,8 +24,8 @@ for @$numbers -> $number
 
 sub draw( $board, $drawn )
 {
-    state @rows  = map { .item * width ..^ .item * width + width }, ^width;
-    state @cols  = [Z,] @rows;
+    state @rows = map { .item * width ..^ .item * width + width }, ^width;
+    state @cols = [Z,] @rows;
 
     for @$board -> $number is rw
     {
