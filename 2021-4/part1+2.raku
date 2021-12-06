@@ -5,7 +5,7 @@ constant width = 5;
 my ( $numbers, $boards ) =
     .head.comb( /\d+/ ),
     .skip.comb( /\d+/ ).batch( width² )>>.Array
-        with $*IN.lines.cache;
+        with [ $*IN.lines ];
 
 for @$numbers -> $number
 {
@@ -20,7 +20,7 @@ for @$numbers -> $number
 
 sub draw( $board, $drawn )
 {
-    state @rows = (^width²).batch: width;
+    state @rows = ( ^width² ).batch: width;
     state @cols = [Z] @rows;
 
     for @$board -> $number is rw
