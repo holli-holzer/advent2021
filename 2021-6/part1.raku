@@ -4,7 +4,7 @@ my $file = $test ?? "sample.txt" !! "input.txt";
 
 my @ages = 0 xx 9;
 
-@ages[$_]++
+@ages[ .item ]++
     for $file.IO.comb: /\d/;
 
 say sum( @ages .= &next-day )
