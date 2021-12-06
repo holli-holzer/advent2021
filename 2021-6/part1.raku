@@ -1,4 +1,4 @@
-unit sub MAIN($days, Bool :$test);
+unit sub MAIN( $days, Bool :$test );
 
 my $file = $test ?? "sample.txt" !! "input.txt";
 
