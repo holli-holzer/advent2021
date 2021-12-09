@@ -18,7 +18,6 @@ sub part2( $record )
     [~] $record.tail.map: { Digits.enums{ [~] sort .map: { %segments{$_} } } }
 }
 
-
 sub deduce-segments( $garbled-segments )
 {
     my %sgm;
