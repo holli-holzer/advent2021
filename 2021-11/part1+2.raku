@@ -1,10 +1,10 @@
 constant width =
 constant height = 10;
 
-my \input = [ 'sample.txt'.IO.comb(/\d/) ];
+my \input = [ $*IN.comb: /\d/ ];
 my \coord = [ ^ width * height ];
 my \nbors = [ coord».&nbors-of ];
-    
+
 {   # PART 1
     my \i = input.clone;
     my \f = [ False xx +i ];
