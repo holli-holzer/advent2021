@@ -4,10 +4,7 @@ constant height = 10;
 my \input = [ 'sample.txt'.IO.comb(/\d/) ];
 my \coord = [ ^ width * height ];
 my \nbors = [ coord».&nbors-of ];
-
-say $_, "=>", nbors-of($_) for ^100;
-exit;
-
+    
 {   # PART 1
     my \i = input.clone;
     my \f = [ False xx +i ];
