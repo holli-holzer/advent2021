@@ -1,3 +1,5 @@
+constant chars = <· ▓>;
+
 my ( \points, \instructions )  =  $*IN
     .slurp
     .subst( "fold along ",  :g )
@@ -18,7 +20,7 @@ say  +matrix[*;*].grep: * > 0;
 
 # PART 2
 matrix .= &fold: |.item for |instructions.skip;
-say .join for matrix>>.map: { +( so + $_ > 0 ) || ' ' };
+say .map({ chars[ $_ > 0 ] }).join for matrix;
 
 multi  fold( \mx, 'y', \at )
 {
